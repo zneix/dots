@@ -1,0 +1,3 @@
+[submodule ".config/ranger/colorschemes"]
+	path = .config/ranger/colorschemes
+	url = https://github.com/ranger/colorschemes

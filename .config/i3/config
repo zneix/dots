@@ -1,0 +1,215 @@
+# config v4, reference: https://i3wm.org/docs/userguide.html
+
+set $mod Mod4
+
+# Font for window titles. Will also be used by the bar
+font pango:Hack 9
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+exec --no-startup-id dunst #desktop notifications
+exec --no-startup-id nm-applet #internet
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=000000 #loginctl lock-session
+exec --no-startup-id picom #transparency and animations
+exec --no-startup-id feh --no-fehbg --bg-fill --bg-max ~/Pictures/black.png #wallpaper
+
+exec_always --no-startup-id focus-last.py #script for 'Alt-Tabbing'
+
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+set $unmute pactl set-sink-mute @DEFAULT_SINK@ 0
+bindsym XF86AudioRaiseVolume exec --no-startup-id $unmute && pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id $unmute && pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+#bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# screen brightness
+bindsym XF86ScreenSaver exec xset dpms force off
+bindsym XF86MonBrightnessUp exec sudo light -A 5
+bindsym XF86MonBrightnessDown exec sudo light -U 5
+
+# function keys bindings
+bindsym $mod+F5 exec --no-startup-id $refresh_i3status
+bindsym $mod+F9 exec --no-startup-id $HOME/.local/bin/dmenumount
+bindsym $mod+F10 exec xprop
+bindsym $mod+comma exec --no-startup-id emoji-picker
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+focus_follows_mouse no
+focus_on_window_activation focus
+
+workspace_auto_back_and_forth yes
+force_display_urgency_hint 1500 ms
+
+
+# gaps inner|outer|horizontal|vertical|top|right|bottom|left current|all set|plus|minus|toggle <px>
+#smart_gaps on
+#smart_borders no_gaps
+gaps inner 0
+gaps outer 0
+
+
+hide_edge_borders smart_no_gaps
+default_floating_border normal 0
+default_border normal 0
+
+# standard 'Alt-Tabbing'
+bindsym Mod1+Tab exec $HOME/scripts/focus-last.py --switch
+
+# screenshots
+#bindsym Print exec sharenix -m fs
+bindsym Shift+Print exec maim -s | xclip -selection c -t image/png
+#" | xclip -selection c -t image/png"
+bindsym Ctrl+Print exec $HOME/scripts/dank_maim.sh
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal -e tmux
+
+# kill focused window
+bindsym $mod+Shift+q kill
+bindsym Mod1+F4 kill
+
+# start dmenu (a program launcher)
+bindsym $mod+r exec $HOME/scripts/dmenu_recent
+bindsym $mod+x exec --no-startup-id i3-dmenu-desktop
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+g split h
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+# focus the child container
+#bindsym $mod+d focus child
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# move workspace to another output
+bindsym $mod+p move workspace to output right
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+mode "resize" {
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+d mode "default"
+}
+bindsym $mod+d mode "resize"
+
+bar {
+        tray_output primary
+        #tray_padding 0
+        status_command i3status
+        i3bar_command i3bar --transparency
+        separator_symbol "   "
+        colors {
+            #background #000000
+            #statusline #ffffff
+            #separator #000000
+
+            focused_workspace  #00ff11 #000000 #00ff11
+            active_workspace   #f2ff00 #000000 #ffffff
+            inactive_workspace #000000 #000000 #ffffff
+            urgent_workspace   #ff0000 #000000 #ffffff
+            binding_mode       #ff0000 #000000 #ffffff
+        }
+}
+
+# Color configuration
+# class                 border  backgr. text    indicator child_border
+client.focused          #00ff11 #000000 #00ff11 #2e9ef4   #285577
+client.focused_inactive #f2ff00 #000000 #f2ff00 #484e50   #5f676a
+client.unfocused        #000000 #000000 #ffffff #292d2e   #222222
+client.urgent           #ff0000 #000000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
+
+# application-specific configuration
+assign [title="Serious Sam"] $ws4
+assign [title="Crypt of the NecroDancer"] $ws4
+#for_window [instance="origin.exe"] floating enable

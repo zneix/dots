@@ -1,0 +1,34 @@
+{
+	"suggest.noselect": false,
+	"suggest.numberSelect": false,
+	"prettier.useTabs": true,
+	"prettier.tabWidth": 4,
+	"prettier.semi": true,
+	"prettier.endOfLine": "lf",
+	"prettier.trailingComma": "none",
+	"prettier.requireConfig": true,
+	"coc.preferences.bracketEnterImprove": true,
+	"prettier.disableSuccessMessage": true,
+	"coc.preferences.formatOnSaveFiletypes": [
+		"json",
+		"javascriptreact",
+		"graphql",
+		"cpp",
+		"c",
+		"css",
+		"html",
+		"go",
+		"py",
+		"javascript"
+	],
+	"clangd.enabled": true,
+	"clangd.path": "/home/zneix/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd",
+	"go.enable": true,
+	"go.goplsOptions": {
+		"deepCompletion": true,
+		"usePlaceholders": true,
+		"completeUnimported": true,
+		"completionDocumentation": true,
+		"symbolStyle": "Full"
+	}
+}

@@ -1,0 +1,21 @@
+# This is Git's per-user configuration file.
+[core]
+    editor = nvim
+[user]
+    email = zneix@zneix.eu
+    ;email = 44851575+zneix@users.noreply.github.com
+    name = zneix
+    signingKey = 911916E0523B22F6
+[credential]
+    ;username = zneix
+    helper = "!pass-git-helper $@"
+[commit]
+    gpgSign = true
+[gpg]
+    program = gpg
+[pull]
+    ff = true
+[status]
+	submoduleSummary = true
+[init]
+	defaultBranch = master
