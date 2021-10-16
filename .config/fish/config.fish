@@ -1,6 +1,6 @@
 # most basic env variables
 set -gx EDITOR nvim
-set -gx BROWSER firefox
+set -gx BROWSER firefox-developer-edition
 
 set -gx TERM screen-256color
 
@@ -8,6 +8,11 @@ set -gx TERM screen-256color
 if test (tty) = "/dev/tty1"
 	startx
 end
+
+# XDG rules
+set -gx XDG_DATA_HOME $HOME/.local/share
+set -gx XDG_CONFIG_HOME $HOME/.config
+set -gx XDG_CACHE_HOME $HOME/.cache
 
 # PATH
 set -gx PATH $HOME/.local/bin $PATH
@@ -23,7 +28,7 @@ set -gx QT_SCALE_FACTOR 1
 
 # other env variables
 set -gx CCACHE_CONFIGPATH $HOME/.config/ccache/ccache.conf
-set -gx CHATTERINO2_RECENT_MESSAGES_URL https://recent-messages.zneix.eu/api/v2/recent-messages/%1
+#set -gx CHATTERINO2_RECENT_MESSAGES_URL https://recent-messages.zneix.eu/api/v2/recent-messages/%1
 set -gx QT_MESSAGE_PATTERN "[0;33;40m[%{time hh:mm:ss.zzz}][0m [0;32;40m%{function}[0m %{message}"
 
 alias firefox=firefox-developer-edition
@@ -31,10 +36,28 @@ alias vim=nvim
 alias r=ranger
 alias v=nvim
 alias ayy=yay
+alias pagman=pacman
+alias :q=exit
 
 alias tmpdir="cd (mktemp -d)"
 alias cpu='watch -n.1 "cat /proc/cpuinfo | grep \"^[c]pu MHz\""'
+alias myip="curl https://api.my-ip.io/ip"
+alias validate="curl -s https://id.twitch.tv/oauth2/validate -H \"Authorization: OAuth $argv[1]\" | jq"
+alias mirrorupdate="sudo reflector -c PL --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist"
+alias c2pnsl="XDG_DATA_HOME=~/.local/share/c2pnsl chatterino"
 #alias take="echo mkdir -p $argv[1] && cd $argv[1]"
+
+# validate provided Twitch OAuth / Bearer token
+function validate
+    curl -s https://id.twitch.tv/oauth2/validate -H "Authorization: OAuth $argv[1]" | jq
+end
+
+# get my Twitch token and store it inside TOKEN variable
+function tcurl
+    set CLIENT_ID (grep -A3 "\"username\": \"zneix\","  ~/.local/share/chatterino/Settings/settings.json | grep clientID | sed -r 's/.+: "(.{30})",?/\1/g')
+    set TOKEN (grep -A3 "\"username\": \"zneix\","  ~/.local/share/chatterino/Settings/settings.json | grep oauthToken | sed -r 's/.+: "(.{30})",?/\1/g')
+    curl -s -H "Client-ID: $CLIENT_ID" -H "Authorization: Bearer $TOKEN" $argv
+end
 
 # create a new folder and cd to it
 function take
@@ -56,7 +79,7 @@ function update-chatterino
     git submodule update
     rm -rf build
     mkdir -p build && cd build
-    qmake CONFIG+=debug .. 2>/dev/null
+    cmake -DCMAKE_BUILD_TYPE=Debug .. 1>/dev/null
     make -j12 1>/dev/null && echo nightly >> bin/modes && echo "Done KKona" || echo "Something went wrong!!!"
 
     cd "$OLDWD"

@@ -27,8 +27,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 
 # screen brightness
 bindsym XF86ScreenSaver exec xset dpms force off
-bindsym XF86MonBrightnessUp exec sudo light -A 5
-bindsym XF86MonBrightnessDown exec sudo light -U 5
+bindsym XF86MonBrightnessUp exec light -A 5
+bindsym XF86MonBrightnessDown exec light -U 5
 
 # function keys bindings
 bindsym $mod+F5 exec --no-startup-id $refresh_i3status
@@ -163,22 +163,33 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-mode "resize" {
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize shrink height 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
+# window resizing
+bindsym $mod+Ctrl+h resize shrink width 10 px or 10 ppt
+bindsym $mod+Ctrl+j resize shrink height 10 px or 10 ppt
+bindsym $mod+Ctrl+k resize grow height 10 px or 10 ppt
+bindsym $mod+Ctrl+l resize grow width 10 px or 10 ppt
 
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize shrink height 10 px or 10 ppt
-        bindsym Up resize grow height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+bindsym $mod+Ctrl+Left resize shrink width 10 px or 10 ppt
+bindsym $mod+Ctrl+Down resize shrink height 10 px or 10 ppt
+bindsym $mod+Ctrl+Up resize grow height 10 px or 10 ppt
+bindsym $mod+Ctrl+Right resize grow width 10 px or 10 ppt
 
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+d mode "default"
-}
-bindsym $mod+d mode "resize"
+#mode "resize" {
+        #bindsym h resize shrink width 10 px or 10 ppt
+        #bindsym j resize shrink height 10 px or 10 ppt
+        #bindsym k resize grow height 10 px or 10 ppt
+        #bindsym l resize grow width 10 px or 10 ppt
+
+        #bindsym Left resize shrink width 10 px or 10 ppt
+        #bindsym Down resize shrink height 10 px or 10 ppt
+        #bindsym Up resize grow height 10 px or 10 ppt
+        #bindsym Right resize grow width 10 px or 10 ppt
+
+        #bindsym Return mode "default"
+        #bindsym Escape mode "default"
+        #bindsym $mod+d mode "default"
+#}
+#bindsym $mod+d mode "resize"
 
 bar {
         tray_output primary
@@ -210,6 +221,6 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 client.background       #ffffff
 
 # application-specific configuration
-assign [title="Serious Sam"] $ws4
-assign [title="Crypt of the NecroDancer"] $ws4
+#assign [title="Serious Sam"] $ws4
+assign [title="Crypt of the NecroDancer"] $ws5
 #for_window [instance="origin.exe"] floating enable

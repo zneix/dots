@@ -8,4 +8,14 @@ prompt: enabled
 pager:
 # Aliases allow you to create nicknames for gh commands
 aliases:
+    # PRs
     co: pr checkout
+    pv: pr view --web
+    pl: pr list
+
+    # Issues
+    iv: issue view --web
+    il: issue list
+
+    # Repos
+    rv: repo view --web

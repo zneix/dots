@@ -20,6 +20,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " .fish files support
 Plug 'dag/vim-fish'
 Plug 'mboughaba/i3config.vim'
+Plug 'jparise/vim-graphql'
 
 " dank
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
@@ -28,6 +29,9 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
 " themes
 Plug 'morhetz/gruvbox'
+
+" custom editorconfig
+Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
 
@@ -94,6 +98,7 @@ noremap P "+P
 
 let g:loaded_ruby_provider = 0
 let g:NERDTreeGitStatusWithFlags = 1
+let g:NERDTreeShowHidden = 1
 "let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 "let g:NERDTreeGitStatusNodeColorization = 1
 "let g:NERDTreeColorMapCustom = {

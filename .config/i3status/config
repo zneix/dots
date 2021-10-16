@@ -23,6 +23,11 @@ order += "cpu_temperature 0"
 order += "load"
 order += "tztime local"
 
+ipv6 {
+    format_up = "xd"
+    format_down = "xd"
+}
+
 ethernet _first_ {
 	format_up = "E: %ip (%speed)"
 	#format_down = "E: down"
