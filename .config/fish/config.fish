@@ -9,15 +9,30 @@ if test (tty) = "/dev/tty1"
 	startx
 end
 
-# XDG rules
-set -gx XDG_DATA_HOME $HOME/.local/share
-set -gx XDG_CONFIG_HOME $HOME/.config
-set -gx XDG_CACHE_HOME $HOME/.cache
-
 # PATH
-set -gx PATH $HOME/.local/bin $PATH
+set -gx PATH $PATH $HOME/.local/bin
 set -gx PATH $PATH $HOME/scripts
 set -gx PATH $PATH $HOME/go/bin
+
+###########
+# XDG rules
+set -gx XDG_CONFIG_HOME $HOME/.config
+set -gx XDG_CACHE_HOME $HOME/.cache
+set -gx XDG_DATA_HOME $HOME/.local/share
+set -gx XDG_STATE_HOME $HOME/.local/state
+
+## CONFIG
+set -gx CCACHE_CONFIGPATH $XDG_CONFIG_HOME/ccache/ccache.conf
+set -gx TS3_CONFIG_DIR $XDG_CONFIG_HOME/ts3client
+## CACHE
+## DATA
+set -gx CARGO_HOME $XDG_DATA_HOME/cargo
+set -gx GRADLE_USER_HOME $XDG_DATA_HOME/gradle
+set -gx PASSWORD_STORE_DIR $XDG_DATA_HOME/pass
+## STATE
+set -gx PSQL_HISTORY $XDG_STATE_HOME/psql_history
+## MISC
+alias irssi="irssi --config=$XDG_CONFIG_HOME/irssi/config --home=$XDG_DATA_HOME/irssi"
 
 # black theme compatibility options for qt5ct or something
 set -gx QT_QPA_PLATFORMTHEME qt5ct
@@ -27,7 +42,6 @@ set -gx QT_AUTO_SCREEN_SCALE_FACTOR 0
 set -gx QT_SCALE_FACTOR 1
 
 # other env variables
-set -gx CCACHE_CONFIGPATH $HOME/.config/ccache/ccache.conf
 #set -gx CHATTERINO2_RECENT_MESSAGES_URL https://recent-messages.zneix.eu/api/v2/recent-messages/%1
 set -gx QT_MESSAGE_PATTERN "[0;33;40m[%{time hh:mm:ss.zzz}][0m [0;32;40m%{function}[0m %{message}"
 
@@ -46,10 +60,16 @@ alias validate="curl -s https://id.twitch.tv/oauth2/validate -H \"Authorization:
 alias mirrorupdate="sudo reflector -c PL --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist"
 alias c2pnsl="XDG_DATA_HOME=~/.local/share/c2pnsl chatterino"
 #alias take="echo mkdir -p $argv[1] && cd $argv[1]"
+alias objxd="echo -n ￼ | xsel --clipboard"
 
 # validate provided Twitch OAuth / Bearer token
 function validate
     curl -s https://id.twitch.tv/oauth2/validate -H "Authorization: OAuth $argv[1]" | jq
+end
+
+# xd
+function userid
+    tcurl "https://api.twitch.tv/helix/users?login=$argv[1]" | jq .data[].id -j | xclip -selection c
 end
 
 # get my Twitch token and store it inside TOKEN variable
