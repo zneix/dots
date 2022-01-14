@@ -22,15 +22,20 @@ set -gx XDG_DATA_HOME $HOME/.local/share
 set -gx XDG_STATE_HOME $HOME/.local/state
 
 ## CONFIG
-set -gx CCACHE_CONFIGPATH $XDG_CONFIG_HOME/ccache/ccache.conf
-set -gx TS3_CONFIG_DIR $XDG_CONFIG_HOME/ts3client
+set -gx CCACHE_CONFIGPATH   $XDG_CONFIG_HOME/ccache/ccache.conf
+set -gx TS3_CONFIG_DIR      $XDG_CONFIG_HOME/ts3client
+set -gx WGETRC              $XDG_CONFIG_HOME/wgetrc
 ## CACHE
+set -gx CUDA_CACHE_PATH     $XDG_CACHE_HOME/nv
 ## DATA
-set -gx CARGO_HOME $XDG_DATA_HOME/cargo
-set -gx GRADLE_USER_HOME $XDG_DATA_HOME/gradle
-set -gx PASSWORD_STORE_DIR $XDG_DATA_HOME/pass
+set -gx CARGO_HOME          $XDG_DATA_HOME/cargo
+set -gx GRADLE_USER_HOME    $XDG_DATA_HOME/gradle
+set -gx PASSWORD_STORE_DIR  $XDG_DATA_HOME/pass
+set -gx GOPATH              $XDG_DATA_HOME/go
+set -gx NODE_REPL_HISTORY   $XDG_DATA_HOME/node_repl_history
+set -gx MYSQL_HISTFILE      $XDG_DATA_HOME/mysql_history
 ## STATE
-set -gx PSQL_HISTORY $XDG_STATE_HOME/psql_history
+set -gx PSQL_HISTORY        $XDG_STATE_HOME/psql_history
 ## MISC
 alias irssi="irssi --config=$XDG_CONFIG_HOME/irssi/config --home=$XDG_DATA_HOME/irssi"
 
