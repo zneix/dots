@@ -2,10 +2,14 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'scrooloose/nerdtree'
-"Plug 'tsony-tsonev/nerdtree-git-plugin'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" legacy shit, see convo from 2022-10-18 in #pajlada w/ yunglpr
+"Plug 'scrooloose/nerdtree'
+""Plug 'tsony-tsonev/nerdtree-git-plugin'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
+Plug 'nvim-tree/nvim-tree.lua'
 
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
@@ -33,6 +37,9 @@ Plug 'morhetz/gruvbox'
 " custom editorconfig
 Plug 'editorconfig/editorconfig-vim'
 
+" C# support
+"Plug 'OmniSharp/omnisharp-vim'
+
 call plug#end()
 
 
@@ -45,12 +52,17 @@ set scrolloff=7
 
 set number
 set incsearch
+set backspace=eol,start,indent
+
 set softtabstop=4
 set tabstop=4
 set shiftwidth=4
-set expandtab
+set noexpandtab
 set autoindent
 set smartindent
+
+set listchars=tab:\ \ ,lead:^,trail:·,extends:>
+set list
 
 set rnu
 
@@ -60,7 +72,12 @@ set rnu
 nnoremap ; :
 
 inoremap jk <ESC>
-nmap <C-n> :NERDTreeToggle<CR>
+
+" load some stuff that's in a init.lua file (lidl solution for now but works)
+lua require'init'
+
+nmap <C-n> :NvimTreeToggle<CR>
+
 vmap <A-x> <plug>NERDCommenterToggle
 nmap <A-x> <plug>NERDCommenterToggle
 
@@ -97,6 +114,7 @@ noremap P "+P
 " === flags
 
 let g:loaded_ruby_provider = 0
+let g:loaded_perl_provider = 0
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeShowHidden = 1
 "let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -184,6 +202,7 @@ set laststatus=2
 autocmd BufEnter * call SyncTree()
 
 " coc config
+let g:coc_data_home = '~/.local/share/coc'
 let g:coc_global_extensions = [
   \ 'coc-snippets',
   \ 'coc-pairs',
@@ -201,14 +220,16 @@ set updatetime=300
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
 
-" always show signcolumns
+" Always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
+" Since patch-8.1.1564 vim can merge signcolumn and number column into one (previously this option was set to 'yes')
 set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      "\ <SID>check_back_space() ? "\<TAB>" : TODO: Fix
+      \ 1 ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
@@ -320,3 +341,6 @@ aug i3config_ft_detection
     au!
     au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
 aug end
+
+" === clangd stuff
+au FileType cpp nnoremap <silent> <F4> :<C-u>CocCommand clangd.switchSourceHeader<CR>

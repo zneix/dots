@@ -1,0 +1,31 @@
+[colors.normal]
+black = "#000000"
+blue = "#81a2be"
+cyan = "#8abeb7"
+green = "#15a876"
+magenta = "#b294bb"
+red = "#ff0011"
+white = "#ffffff"
+yellow = "#f2ff00"
+
+[colors.primary]
+background = "#000000"
+foreground = "#f5f5f5"
+
+[font]
+size = 7.0
+
+[font.normal]
+family = "Hack"
+
+[scrolling]
+history = 10000
+
+[shell]
+program = "/bin/fish"
+
+[window]
+decorations = "full"
+dynamic_title = true
+#gtk_theme_variant = "None"
+title = "Alacritty xd"

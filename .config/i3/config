@@ -10,12 +10,23 @@ font pango:Hack 9
 #font pango:DejaVu Sans Mono 8
 
 exec --no-startup-id dunst #desktop notifications
-exec --no-startup-id nm-applet #internet
-#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=000000 #loginctl lock-session
-exec --no-startup-id picom #transparency and animations
-exec --no-startup-id feh --no-fehbg --bg-fill --bg-max ~/Pictures/black.png #wallpaper
+exec --no-startup-id nm-applet --indicator #internet
 
-exec_always --no-startup-id focus-last.py #script for 'Alt-Tabbing'
+# lock screen handler
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=000000 #loginctl lock-session
+
+#transparency and animations
+exec --no-startup-id picom
+
+# wallpaper
+#exec --no-startup-id feh --no-fehbg --bg-fill --bg-max ~/Pictures/black.png
+exec --no-startup-id feh --no-fehbg --bg-fill --bg-max -z ~/Pictures/pony/wallpapers/
+
+# custom i3ipc C app listening to window events
+exec --no-startup-id pdth-focuser
+
+#script for 'Alt-Tabbing'
+exec --no-startup-id focus-last.py
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -24,11 +35,13 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id $unmute && pactl set-sink-volu
 bindsym XF86AudioLowerVolume exec --no-startup-id $unmute && pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 #bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym $mod+F4 exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+#bindcode 248 exec --no-startup-id wall "pactl set-source-mute @DEFAULT_SOURCE@ toggle" && $refresh_i3status
 
 # screen brightness
 bindsym XF86ScreenSaver exec xset dpms force off
-bindsym XF86MonBrightnessUp exec light -A 5
-bindsym XF86MonBrightnessDown exec light -U 5
+bindsym XF86MonBrightnessUp exec light -A 5 && $refresh_i3status
+bindsym XF86MonBrightnessDown exec light -U 5 && $refresh_i3status
 
 # function keys bindings
 bindsym $mod+F5 exec --no-startup-id $refresh_i3status
@@ -52,6 +65,7 @@ force_display_urgency_hint 1500 ms
 gaps inner 0
 gaps outer 0
 
+for_window [all] title_window_icon yes
 
 hide_edge_borders smart_no_gaps
 default_floating_border normal 0
@@ -65,6 +79,10 @@ bindsym Mod1+Tab exec $HOME/scripts/focus-last.py --switch
 bindsym Shift+Print exec maim -s | xclip -selection c -t image/png
 #" | xclip -selection c -t image/png"
 bindsym Ctrl+Print exec $HOME/scripts/dank_maim.sh
+bindsym $mod+Print exec scrot "$HOME"'/Pictures/scrot/%Y-%m-%d_%H-%M-%S_$wx$h.png'
+#bindsym Ctrl+Shift+Print exec scrot -s -e 'ni $n | head -c -1 | xsel -b -i && notify-send "Copied image to clipboard"'
+#bindsym Ctrl+Shift+Print exec notify-send "asd"
+#bindsym $mod+Print exec notify-send xdd
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal -e tmux
@@ -175,21 +193,20 @@ bindsym $mod+Ctrl+Up resize grow height 10 px or 10 ppt
 bindsym $mod+Ctrl+Right resize grow width 10 px or 10 ppt
 
 #mode "resize" {
-        #bindsym h resize shrink width 10 px or 10 ppt
-        #bindsym j resize shrink height 10 px or 10 ppt
-        #bindsym k resize grow height 10 px or 10 ppt
-        #bindsym l resize grow width 10 px or 10 ppt
-
-        #bindsym Left resize shrink width 10 px or 10 ppt
-        #bindsym Down resize shrink height 10 px or 10 ppt
-        #bindsym Up resize grow height 10 px or 10 ppt
-        #bindsym Right resize grow width 10 px or 10 ppt
-
-        #bindsym Return mode "default"
-        #bindsym Escape mode "default"
-        #bindsym $mod+d mode "default"
+		#bindsym h resize shrink width 10 px or 10 ppt
+		#bindsym j resize shrink height 10 px or 10 ppt
+		#bindsym k resize grow height 10 px or 10 ppt
+		#bindsym l resize grow width 10 px or 10 ppt
 #}
-#bindsym $mod+d mode "resize"
+
+#mode "sweat" {
+	#bindsym z exec --no-startup-id xdotool click 1
+	#bindsym x exec --no-startup-id xdotool mousemove_relative 0 -40
+	#bindsym c exec --no-startup-id xdotool mousemove_relative 0 40
+	#bindsym $mod+z  mode "default"
+#}
+
+#bindsym $mod+z mode "sweat"
 
 bar {
         tray_output primary
@@ -221,6 +238,16 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 client.background       #ffffff
 
 # application-specific configuration
-#assign [title="Serious Sam"] $ws4
-assign [title="Crypt of the NecroDancer"] $ws5
+#assign [title="Serious Sam"] $ws5
+assign [class="discord"] $ws3
+#assign [class="Spotify"] $ws3
+for_window [class="Spotify"] move window to workspace $ws3
+assign [class="^Thunderbird$"] $ws3
+assign [class="^steam$"] $ws4
+assign [title="^Crypt of the NecroDancer$"] $ws5
+assign [class="Hexchat"] $ws6
 #for_window [instance="origin.exe"] floating enable
+for_window [class="net-runelite-client-RuneLite"] floating enable
+
+# PAYDAY: The Heist
+assign [class="steam_app_24240"] $ws5

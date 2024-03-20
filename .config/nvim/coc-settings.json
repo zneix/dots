@@ -6,28 +6,31 @@
 	"prettier.semi": true,
 	"prettier.endOfLine": "lf",
 	"prettier.trailingComma": "none",
-	"prettier.requireConfig": true,
-    "prettier.eslintIntegration": true,
+	"prettier.requireConfig": false,
+	"prettier.eslintIntegration": true,
 	"coc.preferences.bracketEnterImprove": true,
 	"prettier.disableSuccessMessage": true,
 	"coc.preferences.formatOnSaveFiletypes": [
-		"json",
 		"javascriptreact",
 		"graphql",
-		"cpp",
-		"css",
 		"go",
-		"py"
+		"py",
+		"cpp"
 	],
 	"clangd.enabled": true,
-	"clangd.path": "/home/zneix/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd",
 	"go.enable": true,
 	"go.goplsOptions": {
 		"deepCompletion": true,
-        "verboseOutput": true,
+		"verboseOutput": true,
 		"usePlaceholders": true,
 		"completeUnimported": true,
 		"completionDocumentation": true,
 		"symbolStyle": "Full"
-	}
+	},
+	"omnisharp.enableEditorConfigSupport": true,
+	"omnisharp.path": "latest",
+	"omnisharp.projectLoadTimeout": 60,
+	"omnisharp.useGlobalMono": "always",
+  "omnisharp.useModernNet": true,
+  "clangd.path": "~/.local/share/coc/extensions/coc-clangd-data/install/17.0.3/clangd_17.0.3/bin/clangd"
 }

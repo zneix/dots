@@ -1,37 +1,47 @@
 # This is Git's per-user configuration file.
 [core]
-    editor = nvim
+	editor = nvim
+	;autocrlf = true
 [user]
-    email = zneix@zneix.eu
-    ;email = 44851575+zneix@users.noreply.github.com
-    name = zneix
-    signingKey = 911916E0523B22F6
+	email = zneix@zneix.eu
+	;email = 44851575+zneix@users.noreply.github.com
+	name = zneix
+	signingKey = 911916E0523B22F6
 [credential]
-    ;username = zneix
-    helper = "!pass-git-helper $@"
+	;username = zneix
+	helper = "!pass-git-helper $@"
 [commit]
-    gpgSign = true
+	gpgSign = true
 [gpg]
-    program = gpg
+	program = gpg
 [pull]
-    ff = true
+	ff = true
 [status]
 	submoduleSummary = true
 [init]
 	defaultBranch = master
 [alias]
-    st = status
-    df = diff
-    cs = commit -S
-    co = checkout
-    cn = checkout -b
-    cb = checkout -b
-    ap = add -p
-    bd = branch -d
-    bdd = branch -D
+	st = status
+	df = diff
+	cs = commit -S
+	co = checkout
+	cn = checkout -b
+	cb = checkout -b
+	ap = add -p
+	bd = branch -d
+	bdd = branch -D
+	ol = log --oneline --max-count
+	ol5 = log --oneline --max-count 5
+	lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' #from mm2pl
+	crlf = "!f() { git -c core.autocrlf=true \"$@\"; }; f"
 [sendemail]
 	smtpserver = mail.zneix.eu
 	smtpserverport = 587
 	smtpuser = zneix
 	suppresscc = self
 	smtpencryption = tls
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

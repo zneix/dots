@@ -12,10 +12,12 @@ aliases:
     co: pr checkout
     pv: pr view --web
     pl: pr list
-
     # Issues
     iv: issue view --web
     il: issue list
-
     # Repos
     rv: repo view --web
+    # Syncing DorHUD
+    userlua-push: gist edit fb99059520fe94cfcfaaefe8d02af6db /home/zneix/.local/share/Steam/steamapps/common/PAYDAY\ The\ Heist/mods/user.lua
+    userlua-diff: gist view fb99059520fe94cfcfaaefe8d02af6db
+version: "1"
